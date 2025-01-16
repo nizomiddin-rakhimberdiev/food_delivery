@@ -49,7 +49,7 @@
                 <div>English</div>
                 <span class="arrow_carrot-down"></span>
                 <ul>
-                    <li><a href="#">Spanis</a></li>
+                    <li><a href="#">Spanish</a></li>
                     <li><a href="#">English</a></li>
                 </ul>
             </div>
@@ -230,36 +230,24 @@
     </section>
     <!-- Hero Section End -->
 
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
     <!-- Categories Section Begin -->
     <section class="categories">
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
+                    {% for c in categories %}
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-                            <h5><a href="#">Fresh Fruit</a></h5>
+                        <div class="categories__item set-bg" data-setbg="{% static 'img/categories/cat-1.jpg' %}">
+                            <h5><a href="#">{{ c.name }}</a></h5>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -695,6 +683,7 @@
     </section>
     <!-- Blog Section End -->
 
+
     <!-- Footer Section Begin -->
     <footer class="footer spad">
         <div class="container">
@@ -778,3 +767,5 @@
 </body>
 
 </html>
+    {% endblock %}
+
