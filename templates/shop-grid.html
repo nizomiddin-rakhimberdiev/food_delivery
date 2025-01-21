@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+<style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
 
 {% block content %}
 
@@ -20,6 +26,14 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
+
+<!--{% for branch in branches %}-->
+<!--        <div class="map-container">-->
+<!--            <iframe src="{{ branch.address }}" allowfullscreen loading="lazy"></iframe>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+
+<div id="map"></div>
 
     <!-- Product Section Begin -->
     <section class="product spad">
@@ -528,4 +542,33 @@
     </section>
     <!-- Product Section End -->
 
+<script>
+        function initMap() {
+            // Xaritaning boshlang'ich markazi
+            const center = { lat: 41.2995, lng: 69.2401 };
+
+            // Xaritani yaratish
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: center,
+            });
+
+            // Backend’dan lokatsiyalarni olish
+            const locations = {{ locations|safe }};
+
+            // Har bir lokatsiya uchun marker qo‘shish
+            locations.forEach(location => {
+                const marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name,
+                });
+            });
+        }
+    </script>
+
+    <!-- Google Maps JavaScript API -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
 {% endblock %}

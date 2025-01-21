@@ -28,7 +28,12 @@ class RestaurantBranch(models.Model):
 # 3. FoodCategory model (Ovqat kategoriyalari)
 class FoodCategory(models.Model):
     name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50)
     description = models.TextField(blank=True, null=True)
+
+    def save(self):
+        self.slug = self.name.lower().replace(' ', '-')
+        super().save()
 
     def __str__(self):
         return self.name
@@ -44,6 +49,7 @@ class Food(models.Model):
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     image = models.ImageField(upload_to='food_images/', blank=True, null=True)
     is_available = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -58,7 +64,6 @@ class Order(models.Model):
         ('DELIVERED', 'Delivered'),
         ('CANCELLED', 'Cancelled'),
     )
-
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
     delivery_person = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True,
@@ -97,3 +102,23 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment for Order #{self.order.id} - {'Paid' if self.is_paid else 'Not Paid'}"
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='cart')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Cart #{self.id} for {self.user.username}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def total_price(self):
+        return self.food.price * self.quantity
+
+    def __str__(self):
+        return f"{self.food.name} (x{self.quantity})"
