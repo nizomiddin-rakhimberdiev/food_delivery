@@ -17,14 +17,23 @@ class Blog(models.Model):
 class Restaurant(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='restaurants')
     name = models.CharField(max_length=100)
-    address = models.TextField()
     phone = models.CharField(max_length=15)
     rating = models.FloatField(default=0.0)
+    image = models.ImageField(upload_to='restaurant-images/')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
+
+class RestaurantBranch(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='branches')
+    name = models.CharField(max_length=100, unique=True)
+    address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 # 3. FoodCategory model (Ovqat kategoriyalari)
 class FoodCategory(models.Model):
