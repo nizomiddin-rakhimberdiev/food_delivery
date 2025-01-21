@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from core.models import FoodCategory, Restaurant, Food, RestaurantBranch
 
 
-# Create your views here.
+
 def home_view(request, *args, **kwargs):
     categories = FoodCategory.objects.all()
     restaurants = Restaurant.objects.all()
@@ -148,3 +148,8 @@ class ClearCartView(View):
         cart.items.all().delete()
 
         return JsonResponse({"message": "Savatcha tozalandi"})
+
+
+def abdurahmon_view(request):
+    pass
+
