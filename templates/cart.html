@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h2 {
+            color: #343a40;
+        }
+
+        .cart-items table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .cart-items th, .cart-items td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .cart-items th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .cart-items td img {
+            width: 100px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .cart-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cart-footer .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .cart-footer button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cart-footer button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cart-container">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+    </div>
+
+    <div class="cart-items">
+        {% if cart and cart.items.all %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.items.all %}
+                        <tr>
+                            <td>
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {{ item.product.name }}
+                            </td>
+                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Your cart is empty!</p>
+        {% endif %}
+    </div>
+
+    <div class="cart-footer">
+        {% if cart %}
+            <p class="total">Total: ${{ cart.total_price }}</p>
+            <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Proceed to Checkout</a>
+        {% else %}
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Go Back to Shopping</a>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

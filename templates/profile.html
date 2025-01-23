@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        /* Body and overall layout */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+            color: #fff; /* Text color white */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Profile container */
+        .profile-container {
+            text-align: center;
+            background-color: #333;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Profile picture */
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid #fff; /* White border */
+            margin: 0 auto 20px;
+            background-image: url('https://via.placeholder.com/120'); /* Example image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Profile information */
+        .profile-info h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        /* Stats section */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .stats div {
+            text-align: center;
+        }
+
+        .stats div span {
+            display: block;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Profile buttons */
+        .profile-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .profile-buttons a,
+        .profile-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-buttons a {
+            color: #4CAF50;
+            background-color: transparent;
+        }
+
+        .profile-buttons a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .profile-buttons button.edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .profile-buttons button.archive {
+            background-color: #666;
+            color: white;
+        }
+
+        .profile-buttons button.settings {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .profile-buttons button:hover {
+            background-color: #45a049;
+        }
+
+        /* Back link */
+        a.back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<a href="{% url 'home' %}" class="back-link">Back</a>
+
+<div class="profile-container">
+    <div class="profile-picture"><img class="img-fluid" src="{{ user.avatar.url }}" alt=""></div>
+    <div class="profile-info">
+        <h1>{{ user.username }}</h1>
+        <p>{{ user.name }}</p>
+    </div>
+
+    <div class="stats">
+        <div>
+            <span>Phone</span>
+            <span>{{ user.phone_number }}</span>
+        </div>
+        <div>
+            <span>Bio</span>
+            <span>{{ user.bio }}</span>
+        </div>
+    </div>
+
+    <div class="profile-buttons">
+        <a href="{% url 'edit_profile' %}" class="edit">Edit Profile</a>
+        <a href="{% url 'login' %}" class="archive">Log Out</a>
+        <button class="settings">⚙</button>
+    </div>
+</div>
+
+</body>
+</html>

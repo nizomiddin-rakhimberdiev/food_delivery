@@ -31,10 +31,16 @@ class CustomUser(AbstractUser):
         ('restaurant_owner', 'restaurant_owner'),
         ('delivery_person', 'delivery_person'),  # Yetkazib beruvchi roli
     )
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15, unique=True)
     user_id = models.CharField(max_length=15, unique=True, blank=True, null=True)
     address = models.TextField(null=True, blank=True)
     role = models.CharField(max_length=30, choices=ROLES, default='customer')
+    bio = models.TextField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+
+
 
     objects = CustomUserManager()
 
